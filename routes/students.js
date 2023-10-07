@@ -67,8 +67,15 @@ studentsRouter.put("/:id", async (req, res) => {
 studentsRouter.put("/update/:name", async (req, res) => {
     try {
         const {name} = req.params;
-        const response = await Student.updateMany({name}, { name: "Bob" });
-        res.json(response)
+        const {rename} = req.body;
+        const response = await Student.updateMany( {name}, {name: rename} );
+    if(response.modifiedCount > 0){
+        const updateStudent = await Student.find({name: rename});
+        res.json(updateStudent);
+    }else{
+        res.status(404).json({message : "Student doesn't found"});
+    }
+        
     } catch(err){
         res.status(500).json(err)
     }
