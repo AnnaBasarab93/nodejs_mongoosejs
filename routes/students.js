@@ -18,7 +18,6 @@ studentsRouter.get("/", async (req, res) => {
 
 studentsRouter.get("/:id", async (req, res) => {
     const {id} = req.params;
-
     try {
         const response = await Student.findById(id);
     if(!response){
@@ -34,8 +33,8 @@ studentsRouter.get("/:id", async (req, res) => {
 
 //POST
 studentsRouter.post("/", async (req, res) => {
+    const {name, first_name, email} = req.body;
     try {
-        const {name, first_name, email} = req.body;
         const response = await Student.create({name, first_name, email});
         res.json(response)
     } catch(err){
@@ -46,9 +45,9 @@ studentsRouter.post("/", async (req, res) => {
 //PUT /:id  :  To edit one user (with the id) 
 
 studentsRouter.put("/:id", async (req, res) => {
+    const {name, first_name, email} = req.body;
+    const {id} = req.params;
     try {
-        const {name, first_name, email} = req.body;
-        const {id} = req.params;
         const response = await Student.findByIdAndUpdate(id, {name, first_name, email});
 
     if(!response){
@@ -64,9 +63,9 @@ studentsRouter.put("/:id", async (req, res) => {
 ///PUT  : All name equal to John, change it to “Bob”
 
 studentsRouter.put("/update/:name", async (req, res) => {
+    const {name} = req.params;
+    const {rename} = req.body;
     try {
-        const {name} = req.params;
-        const {rename} = req.body;
         const response = await Student.updateMany( {name}, {name: rename} );
     if(response.modifiedCount > 0){
         const updateStudent = await Student.find({name: rename});
@@ -84,8 +83,8 @@ studentsRouter.put("/update/:name", async (req, res) => {
 
 //DELETE
 studentsRouter.delete("/:id", async (req, res) => {
+    const {id} = req.params;
     try {
-        const {id} = req.params;
         const response = await Student.findByIdAndDelete(id);
         res.json(response)
     } catch(err){
