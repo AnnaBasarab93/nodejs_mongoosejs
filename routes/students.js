@@ -36,7 +36,7 @@ studentsRouter.post("/", async (req, res) => {
     const {name, first_name, email} = req.body;
     try {
         const response = await Student.create({name, first_name, email});
-        res.json(response)
+        res.status(201).json(response)
     } catch(err){
         res.status(500).json(err)
     }
