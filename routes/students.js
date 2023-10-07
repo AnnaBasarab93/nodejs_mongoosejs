@@ -34,7 +34,6 @@ studentsRouter.get("/:id", async (req, res) => {
 
 //POST
 studentsRouter.post("/", async (req, res) => {
-
     try {
         const {name, first_name, email} = req.body;
         const response = await Student.create({name, first_name, email});

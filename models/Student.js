@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import validator from "validator";
+
 
 const StudentSchema = new mongoose.Schema({
     name: {
@@ -12,12 +12,12 @@ const StudentSchema = new mongoose.Schema({
     },
     email:{
         type:String,
-        validate:{
-            validator: validator.isEmail,
-            message: '{VALUE} is not a valid email',
-            isAsync: false
-            }
-        }
+        required: true, 
+        unique: true, validate: {validator: function(v)
+            {return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i.test(v);},
+        message: props => `${props.value} is not a valid email address!`
+
+        }}
     })
 const Student = mongoose.model('Student', StudentSchema);
 
